@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ccd6aa9d-c57b-4ad3-b102-d88ccb3c4fb9">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="10" width="218" height="30" uuid="06b45921-09ad-4840-9542-1bfedc493d34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NỘI DUNG BẢO HÀNH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="10" width="220" height="30" uuid="472ffe61-1ee7-496d-a6b5-5f34532e5882"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[THÔNG TIN KHÁCH HÀNG]]></text>
+			</staticText>
+			<line>
+				<reportElement x="440" y="41" width="360" height="1" uuid="76e4035e-b732-4d0c-9fb0-62ac77af0dfe"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="172" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="390" height="20" uuid="f712e731-6b57-42a0-96e8-47ec3761a157"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A: Chính sách ưu đãi dành cho tất cả khách hàng đến với TAH Computer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="26" width="388" height="54" uuid="3ebf39ea-b375-4e69-bebb-0bcfd137bad0"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[- Nếu Khách Hàng có bất cứ vấn đề gì, câu hỏi nào…trong việc sử dụng sản phẩm, nhân viên TAH Computer sẽ tư vấn giải đáp tận tình hoàn toàn miễn phí (kể cả những sản phẩm, thiết bị không phải do công ty cung cấp) qua điện thoại, tại hệ thống CH, qua mail hoặc chat…]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="100" width="389" height="60" uuid="05f9c409-64cb-4a46-8813-c0231ba12c82"/>
+				<text><![CDATA[- Sản phẩm còn trong thời gian bảo hành.
+Các sản phẩm bảo hành phải có tem và phiếu bảo hành có đầy đủ thông tin: kiểu máy, số serial hoặc imei, số Pin, tên khách hàng, địa chỉ, ngày mua.
+Sản phẩm không nằm trong trường hợp từ chối bảo hành của nhà cung cấp.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="390" height="20" uuid="4eedeb44-a8b4-4bd5-838a-177ed762e5af"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B. Điều kiện bảo hành:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="20" width="100" height="30" uuid="c7b15a57-ab2f-4bf5-b524-c72b6e5887a1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Tên khách hàng: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="50" width="100" height="30" uuid="a4486aec-fbd6-4a51-a1da-0c2a3cea581c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Số điện thoại: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="80" width="100" height="30" uuid="45bda753-209b-410c-8ac7-b0dd1f7dda9c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Địa chỉ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="110" width="100" height="30" uuid="20a056d9-f802-4bc0-989d-9ea397d5f7e3"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Mã linh kiện:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="140" width="100" height="30" uuid="0ff5962d-ca4f-4f89-85b4-b6d7e1bbe3d6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Tên linh kiện: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="-9" width="385" height="1" uuid="3da202c6-1601-41e4-9954-9f3c38c22ad1"/>
+			</line>
+			<textField>
+				<reportElement x="611" y="20" width="169" height="30" uuid="c2840b68-6015-4a87-94fa-2fb319eb3a29"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="50" width="169" height="30" uuid="1ed20cb8-d609-4008-a3e7-38b0230fbea6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="80" width="169" height="30" uuid="427c3632-f113-4081-8f41-a9e44ad373ee"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="112" width="169" height="30" uuid="0e5f6ba5-426d-478f-919c-02c61a7aa874"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="142" width="169" height="30" uuid="d072e4ce-f6b9-4716-b410-ac075074b532"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="161" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="390" height="20" uuid="0768fec7-e90b-4e9e-9969-9b7f7334d887"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C. Sản phẩm hết hạn bảo hành:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="390" height="141" uuid="303eeb48-4ad7-4da8-be86-ed079d5deadd"/>
+				<text><![CDATA[- Các sản phẩm không có tem, phiếu bảo hành , Phiếu BH hoặc Tem có dấu hiệu sửa, xóa, dán đè tem khác.
+- Sản phẩm bị thay đổi, sửa chữa bởi người sử dụng.
+- Sản phẩm hỏng hóc do tác động cơ học, biến dạng rơi, vỡ, va đập, bị trầy xước…
+- Linh kiện bị biến dạng, trầy xước, bể, mẻ, cong, xì tụ, cháy nổ... (HDD bị nứt, bể cổng cắm cable, rách barcode ,CPU bị mẻ, nứt chíp, rỉ chân, vô nước,mainboard cong, gãy chân socket…)
+- Thiết bị đã được sử dụng trong môi trường ẩm ướt, bụi bậm, từ trường cao, bị oxy hóa, hay trực tiếp dưới ánh nắng mặt trời và có dấu hiệu cháy nổ, do dùng nguồn điện không ổn định  hoặc do côn trùng, chuột bọ phá hoại, hoặc hư hỏng do thiên tai, hỏa hoạn.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="0" width="100" height="30" uuid="6cf0483f-a468-40bc-99a8-5b2a38c85583"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Số lượng: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="461" y="30" width="100" height="30" uuid="c9c70f0c-21c6-4d85-9795-e1949e70af09"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ngày mua: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="60" width="100" height="30" uuid="fc1f0f60-e663-488f-9f8f-c075d57e459e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Thời gian bảo hành: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="100" width="362" height="20" uuid="59c379d9-2d7e-45f0-80f3-7b6c0a941925"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[- TAH COMPUTER - CHUYÊN CUNG CẤP CÁC LOẠI LINH KIỆN MÁY TÍNH ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="120" width="362" height="20" uuid="229fefe0-3511-42d4-9bfb-aa03c25a5a2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[- Địa Chỉ: 799 Nguyễn Kiệm, Phường 3, Quận Gò Vấp, TP.Hồ Chí Minh]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="611" y="0" width="169" height="30" uuid="cddb9827-d632-411f-8453-6c68d8bec7a0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="610" y="29" width="170" height="30" uuid="15bad65b-f35d-4280-bc89-9fe05949b0ac"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="610" y="60" width="170" height="30" uuid="d8dddcd9-0ef9-49e7-ad3a-0c16e6761817"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="185" y="0" width="420" height="20" uuid="7aa4465f-d6d2-4aa8-a711-4d7b40290e0a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Hotline:      0985345999      -      0985567999      -      0985999999]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
