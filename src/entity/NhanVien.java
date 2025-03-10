@@ -30,6 +30,7 @@ public class NhanVien {
         this.dienThoai = dienThoai;
         CCCD = cCCD;
         this.diaChi = diaChi;
+        
         this.ngayVaoLam = ngayVaoLam;
         this.iMages = iMages;
     }

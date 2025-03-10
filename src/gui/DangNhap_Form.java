@@ -59,7 +59,7 @@ public class DangNhap_Form extends JFrame {
         b2.add(lblMK = new JLabel("Mật Khẩu: "));
         b2.add(Box.createHorizontalStrut(40));
         b2.add(pwText = new JPasswordField("12345"));
-        pwText.setEchoChar('*');
+        pwText.setEchoChar('*');  
         b.add(Box.createVerticalStrut(10));
         b.add(b3 = Box.createHorizontalBox());
         b3.add(lblQuyen = new JLabel("Quyền Truy Cập: "));

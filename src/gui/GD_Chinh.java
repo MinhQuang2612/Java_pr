@@ -38,6 +38,13 @@ import connection.MyConnection;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
@@ -196,6 +203,10 @@ public class GD_Chinh extends JFrame {
         menuTimKiem.add(mnTimLK = new JMenuItem("Sản Phẩm"));
         mnTimLK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images_menu/linhKien11.png")));
         mnTimLK.setPreferredSize(new Dimension(200,40));
+        
+        JMenu huongDanSD = new JMenu("HƯỚNG DẪN");
+        huongDanSD.setForeground(Color.RED);
+        huongDanSD.setFont(fontMenu);
     
         Account = new JMenu("Tài Khoản");
         Account.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images_menu/acount11.png")));
@@ -223,7 +234,7 @@ public class GD_Chinh extends JFrame {
         menuBar.add(menuQuanLy);
         menuBar.add(menuBaoCao);
         menuBar.add(menuTimKiem);
-      
+        menuBar.add(huongDanSD);
         menuBar.add(space);
         menuBar.add(Account);
 
@@ -334,6 +345,85 @@ public class GD_Chinh extends JFrame {
             }
         });
         
+        huongDanSD.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//System.out.println("Working Directory = " + System.getProperty("user.dir"));
+				if (Desktop.isDesktopSupported()) {
+		            // File in user working directory, System.getProperty("user.dir");
+		            File file = new File("UserMaual.pdf");
+		            if (!file.exists()) {
+		                // In JAR
+		                InputStream inputStream = ClassLoader.getSystemClassLoader()
+		                                    .getResourceAsStream("UserManual.pdf");
+		                // Copy file
+		                OutputStream outputStream = null;
+						try {
+							outputStream = new FileOutputStream(file);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		                byte[] buffer = new byte[1024];
+		                int length;
+		                try {
+							while ((length = inputStream.read(buffer)) > 0) {
+							    outputStream.write(buffer, 0, length);
+							}
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		                try {
+							outputStream.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		                try {
+							inputStream.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		            }
+		            // Open file
+		            try {
+						Desktop.getDesktop().open(file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        }
+				
+			}
+		});
+        
         nCungCap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -385,6 +475,7 @@ public class GD_Chinh extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 ThongTinTaiKhoan_Form tt = new ThongTinTaiKhoan_Form();
                 tt.kh = kh;
+                tt.nv = nv;
                 System.out.println(kh);
                 tt.doshow();
                 pn_Center.removeAll();
@@ -397,8 +488,8 @@ public class GD_Chinh extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DoiMatKhau_Form dmk = new DoiMatKhau_Form();
-                dmk.kh = kh;
-                System.out.println(kh);
+                dmk.nv = nv;
+                System.out.println(nv);
                 dmk.ran = dmk.getSaltString();
                 dmk.doshow();
                 pn_Center.removeAll();
@@ -472,7 +563,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 					String sql = "SELECT * FROM SANPHAM";
 					JasperDesign jdesign = JRXmlLoader.load("D:\\\\Nhom13_QuanLyBanHangQuanAo\\\\src\\\\BaoCao_Jasper\\ThongKeHangKho.jrxml");
 					JRDesignQuery updateQuery = new JRDesignQuery();
@@ -500,7 +591,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT sp.MASP,sp.TENSP,lsp.TENLOAI,nsx.TENNHASX,sp.BAOHANH,sp.DONVITINH,sp.DONGIA,ct.SOLUONG\r\n"
 							+ "FROM [dbo].[HoaDonBanHang] hd JOIN [dbo].[CT_HoaDonBanHang] ct ON hd.MaHDBH = ct.MaHDBH\r\n"
@@ -534,7 +625,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT sp.MASP,sp.TENSP,lsp.TENLOAI,nsx.TENNHASX,sp.BAOHANH,sp.DONVITINH,sp.DONGIA,ct.SOLUONG\r\n"
 							+ "FROM [dbo].[HoaDonBanHang] hd JOIN [dbo].[CT_HoaDonBanHang] ct ON hd.MaHDBH = ct.MaHDBH\r\n"
@@ -568,7 +659,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT sp.MASP,sp.TENSP,lsp.TENLOAI,nsx.TENNHASX,sp.BAOHANH,sp.DONVITINH,sp.DONGIA,ct.SOLUONG\r\n"
 							+ "FROM [dbo].[HoaDonBanHang] hd JOIN [dbo].[CT_HoaDonBanHang] ct ON hd.MaHDBH = ct.MaHDBH\r\n"
@@ -603,7 +694,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT sp.MASP,sp.TENSP,lsp.TENLOAI,nsx.TENNHASX,sp.BAOHANH,sp.DONVITINH,sp.DONGIA,ct.SOLUONG\r\n"
 							+ "FROM [dbo].HoaDonNhapHang hd JOIN [dbo].CT_HoaDonNhapHang ct ON hd.MaHDNH = ct.MaHDNH\r\n"
@@ -637,7 +728,7 @@ public class GD_Chinh extends JFrame {
 				// TODO Auto-generated method stub
 				try {
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT sp.MASP,sp.TENSP,lsp.TENLOAI,nsx.TENNHASX,sp.BAOHANH,sp.DONVITINH,sp.DONGIA,ct.SOLUONG\r\n"
 							+ "FROM [dbo].HoaDonNhapHang hd JOIN [dbo].CT_HoaDonNhapHang ct ON hd.MaHDNH = ct.MaHDNH\r\n"
@@ -817,8 +908,8 @@ public class GD_Chinh extends JFrame {
         JPanel pnd = new JPanel();
         JPanel pnd1 = new JPanel();
         Font ft_south = new Font("Arial",Font.BOLD,13);
-        JLabel lb_south = new JLabel("Trần Minh Quang - Nguyễn Thanh Quyền - Nguyễn Thị Như Ý - Đỗ Văn Việt");
-        JLabel lb_nhom = new JLabel("Nhóm 13: Chương trình quản lý bán hàng quần áo thời trang");
+        JLabel lb_south = new JLabel("Trần Minh Quang - Nguyễn Thanh Quyền - Nguyễn Thị Như Ý - Trương Hữu Trí");
+        JLabel lb_nhom = new JLabel("Chương trình quản lý bán hàng quần áo thời trang");
         lb_nhom.setFont(ft_south);
         lb_south.setFont(ft_south);
         pnt.add(lb_south);
@@ -876,13 +967,13 @@ public class GD_Chinh extends JFrame {
             Object obj = event.getNewLeadSelectionPath().getLastPathComponent();
             System.out.println("" + obj.toString());
             if(obj.toString().equalsIgnoreCase("Sản Phẩm")){
-                TT_SanPham_Form lk = new TT_SanPham_Form();
-                lk.kh = kh;
-                lk.doShow();
-                pn_Center.removeAll();
-                pn_Center.add(lk);
-                pn_Center.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.red),"Sản Phẩm"));
-                pn_Center.validate();
+//                TT_SanPham_Form lk = new TT_SanPham_Form();
+//                lk.kh = kh;
+//                lk.doShow();
+//                pn_Center.removeAll();
+//                pn_Center.add(lk);
+//                pn_Center.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.red),"Sản Phẩm"));
+//                pn_Center.validate();
             }else if(obj.toString().equalsIgnoreCase("Quần Áo")){
                 QuanAo_Form mh = new QuanAo_Form();
                 mh.doShow();
@@ -917,9 +1008,9 @@ public class GD_Chinh extends JFrame {
     public static void main(String[] args) {
         GD_Chinh gd = new GD_Chinh();
         gd.setVisible(true);
-        System.out.println("heloo121");
+        //System.out.println("heloo121");
         gd.iterator();
-        System.out.println("heloo11");
+        //System.out.println("heloo11");
 
     }
 }

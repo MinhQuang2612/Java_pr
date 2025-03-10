@@ -46,7 +46,7 @@ public class TaiKhoan_DAO {
     public TaiKhoan TimKiemMa(String ma){
         TaiKhoan tk = null;
         try{
-            PreparedStatement stmt = con.prepareStatement("select * from TaiKhoan where MA = ?");
+            PreparedStatement stmt = con.prepareStatement("select * from TaiKhoan where MANV = ?");
             stmt.setString(1,ma);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
@@ -58,7 +58,7 @@ public class TaiKhoan_DAO {
         return tk;
     }
     public boolean updateMK(String ma,String mk) {
-        String sql = "update TAIKHOAN set MATKHAU = ? where MA = ?";
+        String sql = "update TAIKHOAN set MATKHAU = ? where MANV = ?";
         try {
             System.out.println("OK1");
             PreparedStatement stmt = con.prepareStatement(sql);

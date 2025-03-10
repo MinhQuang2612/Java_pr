@@ -2,6 +2,7 @@ package gui;
 
 import com.toedter.calendar.JDateChooser;
 
+import TableModel.CT_DonDatHang_tableModel;
 import TableModel.CT_GioHang_TableModel;
 import TableModel.CT_HoaDonBH_tableModel;
 import TableModel.SP_TableModel;
@@ -52,22 +53,24 @@ public class BanHang1_Form extends JPanel {
             lblKhachHang,lblMaHD,lblST,lblNgayLap,lblNhanVien,lblDiaChi,lblGioiTinh;
     JTextField txttienThuoc,txtTienNhan,txtThue,txtTienThoi,txtTong,txtTim,
             txtKhachHang,txtSDT,txtMaHD,txtNhanVien,txtDiaChi, txtGioiTinh;
-    JButton btnHoaDonMoi,btnIn,btnThoat,btnTim,btnKhachHang;
-    JComboBox<String> cbcTim;
+    JButton btnHoaDonMoi,btnIn,btnThoat,btnTim,btnKhachHang, btnTimSDT, btnLapHD;
+    JComboBox<String> cbcTim,cbcGT;
     JDateChooser NgayLap;
     String mahd = "";
     NhanVien nv;
     KhachHang kh;
-    BanHang1_Form bh;
-    double tongTien = 0;
-    JTable table1;
-    SanPham sp;
-    List<SanPham> lsp;
-    List<CT_GioHang> lctgh;
+    BanHang1_Form banhang;
     KhachHang_DAO kh_dao;
     SanPham_DAO sp_dao;
+    List<SanPham> lsp;
+    BanHang1_Form bh;
+    double tongTien = 0;
+    String maKH = "";
+    JTable table1;
 	private JButton btnCapNhatSL;
-	private JButton btnTimSDT, btnXoa;
+	private JButton btnXoa;
+	private JLabel lbltimSDT;
+	private JTextField txttimSDT;
     public BanHang1_Form(){
 
     }
@@ -85,7 +88,7 @@ public class BanHang1_Form extends JPanel {
 
         JPanel pnThongTin = new JPanel();
         pnThongTin.setBorder(new TitledBorder("Thông Tin Hóa Đơn"));
-        Box b,b1,b2,b3,b4;
+        Box b, b1, b2, b3, b4, b5;
         b = Box.createVerticalBox();
         b.setPreferredSize(new Dimension(550,210));
         b.add(Box.createVerticalStrut(30));
@@ -103,37 +106,44 @@ public class BanHang1_Form extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        NgayLap.setEnabled(false);
 
         b1.add(NgayLap);
         b.add(Box.createVerticalStrut(10));
 
-        Box b11;
+        Box b11, b12;
         b.add(b11 = Box.createHorizontalBox());
         b11.add(lblNhanVien = new JLabel("Nhân Viên Lập HD: "));
         b11.add(txtNhanVien = new JTextField());
         b.add(Box.createVerticalStrut(10));
-//        b.add(b2 = Box.createHorizontalBox());
+//        b.add(b2 = Box.createHorizontalBox());      
 //        b2.add(btnKhachHang = new JButton("Khách Hàng"));
-        //b.add(Box.createVerticalStrut(10));
+//        b.add(Box.createVerticalStrut(10));
 
         b.add(b3 = Box.createHorizontalBox());
-        b3.add(lblKhachHang = new JLabel("Khách Hàng: "));
+        b3.add(lblKhachHang = new JLabel("Tên Khách Hàng: "));
         b3.add(txtKhachHang = new JTextField());
         b3.add(Box.createHorizontalStrut(20));
         b3.add(lblGioiTinh = new JLabel("Giới Tính: "));
+//        b3.add(cbcGT = new JComboBox<>());
+//        cbcGT.addItem("Nam");
+//        cbcGT.addItem("Nữ");
+//        cbcGT.setPreferredSize(new Dimension(180,20));
         b3.add(txtGioiTinh = new JTextField());
-       
+        
         b.add(Box.createVerticalStrut(10));
 
         b.add(b4 = Box.createHorizontalBox());
         b4.add(lblST = new JLabel("Điện Thoại: "));
         b4.add(txtSDT = new JTextField());
-      
         b4.add(btnTimSDT = new JButton("Tìm"));
         b4.add(Box.createHorizontalStrut(20));
         b4.add(lblDiaChi = new JLabel("Địa Chỉ: "));
         b4.add(txtDiaChi = new JTextField());
         b.add(Box.createVerticalStrut(10));
+        
+        b.add(b5 = Box.createHorizontalBox());
+        b5.add(btnLapHD = new JButton("Chọn Khách Hàng"));
 
         lblMaHD.setPreferredSize(lblNhanVien.getPreferredSize());
         lblNgayLap.setPreferredSize(lblNhanVien.getPreferredSize());
@@ -212,7 +222,8 @@ public class BanHang1_Form extends JPanel {
         pnNorth.add(pnThuoc,BorderLayout.EAST);
         pnNorth.add(pnThongTin,BorderLayout.CENTER);
         txtMaHD.setEditable(false);
-        if(nv != null){
+        
+        if (nv != null){
             txtNhanVien.setEditable(false);
             txtNhanVien.setText(nv.getTenNV());
         }
@@ -233,7 +244,7 @@ public class BanHang1_Form extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int r = table1.getSelectedRow();
-                if(r != -1){
+                if (r != -1){
                     btnCapNhatSL.setEnabled(true);
                     btnXoa.setEnabled(true);
 
@@ -285,7 +296,7 @@ public class BanHang1_Form extends JPanel {
         s = Box.createVerticalBox();
         s.setPreferredSize(new Dimension(1000,100));
         s.add(s1 = Box.createHorizontalBox());
-        s1.add(lblTienThuoc = new JLabel("Tổng Tiền Sản Phẩm: "));
+        s1.add(lblTienThuoc = new JLabel("Tổng Tiền Hóa Đơn: "));
         s1.add(txttienThuoc = new JTextField(40));
         txttienThuoc.setEditable(false);
         s1.add(Box.createHorizontalStrut(50));
@@ -358,7 +369,6 @@ public class BanHang1_Form extends JPanel {
 
             }
         });
-
 //        btnKhachHang.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
@@ -367,6 +377,70 @@ public class BanHang1_Form extends JPanel {
 //                ds.banhang = bh;
 //            }
 //        });
+        
+        DecimalFormat df = new DecimalFormat("#,###.00 VND");
+        
+        btnLapHD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	//System.out.println("xxx");
+            	//System.out.println(maKH);
+            	if (maKH == "") {
+                	JOptionPane.showMessageDialog(null, "Bạn chưa chọn khách hàng!");
+                	return;
+                }
+            	int result = JOptionPane.showConfirmDialog(null, "Bạn muốn lập hóa đơn cho khách hàng này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                //int r = table.getSelectedRow();
+                GioHang_DAO ghDao = new GioHang_DAO();
+                DonDatHang_DAO ddhDao = new DonDatHang_DAO();
+                
+                	if (ddhDao.TimTheoMaKH(maKH) == null) {
+                		kh = kh_dao.TimKiemMa(maKH);
+                		//System.out.println(kh);
+                		//System.out.println(banhang);
+                        //banhang.kh = kh;
+                        
+//                        banhang.txtKhachHang.setText(kh.getTenKH());
+//                        banhang.txtSDT.setText(kh.getDienThoai());
+//                        banhang.txtDiaChi.setText(kh.getDiaChi());
+                        HoaDonBanHang hd = new HoaDonBanHang("", "Thanh Toán Trực Tiếp", Date.valueOf(LocalDate.now()));
+                        hd.setKhachHang(kh);
+                        System.out.println(nv);
+                        hd.setNhanVien(nv);
+                        HoaDonBanHang_DAO hdDao = new HoaDonBanHang_DAO();
+                        boolean a = hdDao.addHoaDonBH(hd); 
+                        System.out.println(a);
+//                            setVisible(false);
+//                        }
+                	} else {
+                		System.out.println("xxxxxx");
+                		 KhachHang_DAO khDao = new KhachHang_DAO();
+                         CT_DonDatHang_DAO ctdhDao = new CT_DonDatHang_DAO();
+                         kh = khDao.TimKiemMa(maKH);
+//                         banhang.kh = kh;
+//                         banhang.txtKhachHang.setText(kh.getTenKH());
+//                         banhang.txtSDT.setText(kh.getDienThoai());
+//                         banhang.txtDiaChi.setText(kh.getDiaChi());
+                		JOptionPane.showMessageDialog(null, "Khách Hàng Đã Có Đơn Đặt Hàng");
+                		List<CT_DonDatHang> ls = ctdhDao.getLS(ddhDao.TimTheoMaKH(maKH).getMaDDH());
+                        for (CT_DonDatHang ct: ls) {
+                            banhang.tongTien += ct.getThanhTien();
+                            banhang.txttienThuoc.setText(String.valueOf(df.format(banhang.tongTien)));
+                            banhang.txtThue.setText("4%");
+                            banhang.txtTong.setText(String.valueOf(df.format(banhang.tongTien + banhang.tongTien*0.04)));
+                        }
+                        ddhDao.TimTheoMaKH(maKH).setTinhTrang("Hoàn Thành");
+                        banhang.table1.setModel(new CT_DonDatHang_tableModel(ls));
+                        HoaDonBanHang hd = new HoaDonBanHang("", "Thanh Toán Trực Tiếp", Date.valueOf(LocalDate.now()));
+                        hd.setKhachHang(kh);
+                        hd.setNhanVien(banhang.nv);
+                        HoaDonBanHang_DAO hdDao = new HoaDonBanHang_DAO();
+                        if (hdDao.addHoaDonBH(hd)) {
+                            setVisible(false);
+                        }
+                	}
+                }
+        });
         
         btnTimSDT.addActionListener(new ActionListener() {
 			@Override
@@ -383,29 +457,29 @@ public class BanHang1_Form extends JPanel {
 					txtKhachHang.setText(kh.getTenKH());
 					txtDiaChi.setText(kh.getDiaChi());
 					txtGioiTinh.setText(kh.getGioiTinh());
+					maKH = kh.getMaKH();
 				}
 			}
 		});
-        
         btnTim.addActionListener(new ActionListener() {
-        	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (cbcTim.getSelectedIndex() == 0) {
-					sp_dao = new SanPham_DAO();
-					lsp = sp_dao.TimKiemMa1(txtTim.getText());
-					System.out.println(lsp);
-				}
-				else {
-					sp_dao = new SanPham_DAO();
-					lsp = sp_dao.TimKiemTen1(txtTim.getText());
-					
-				}
-				table.setModel(new SP_TableModel(lsp));
-			}
-		});
-        
-        DecimalFormat df = new DecimalFormat("#,###.00 VND");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = txtTim.getText().trim();
+                if (searchText.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập thông tin cần tìm!");
+                } else {
+                    if (cbcTim.getSelectedIndex() == 0) {
+                        sp_dao = new SanPham_DAO();
+                        lsp = sp_dao.TimKiemMa1(searchText);
+                    } else {
+                        sp_dao = new SanPham_DAO();
+                        lsp = sp_dao.TimKiemTen1(searchText);
+                    }
+                    table.setModel(new SP_TableModel(lsp));
+                }
+            }
+        });
+
         txtTienNhan.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -430,12 +504,13 @@ public class BanHang1_Form extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
 				if (!txtTong.getText().equals("")) {
-					if (Double.parseDouble(txtTienNhan.getText().trim()) < tongTien + tongTien * 0.04) {
+					if (!txtTienNhan.getText().trim().equals("") && Double.parseDouble(txtTienNhan.getText().trim()) < tongTien + tongTien * 0.04) {
 						JOptionPane.showMessageDialog(null, "Số tiền nhận phải lớn hơn số tiền hóa đơn");
 					} else {
-						
+						if (!txtTienNhan.getText().trim().equals("")) {
 							txtTienThoi.setText(String.valueOf(df.format(
-									 Double.parseDouble(txtTienNhan.getText().trim()) - tongTien + tongTien * 0.04)));
+									 Double.parseDouble(txtTienNhan.getText().trim()) - (tongTien + tongTien * 0.04))));
+						}						
 					}
 									
 				} else {
@@ -508,7 +583,7 @@ public class BanHang1_Form extends JPanel {
 				
 				try {					
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT hd.MAHDBH,hd.NGAYLAPHD,nv.TENNV,kh.TENKH,kh.DIENTHOAI,kh.DIACHI ,sp.TenSP,lsp.TENLOAI,nsx.TENNHASX,\r\n" + 
 							"cthd.SOLUONG,sp.DonGia,sp.BAOHANH,cthd.SOLUONG * sp.DONGIA AS ThanhTien\r\n" + 
@@ -564,10 +639,11 @@ public class BanHang1_Form extends JPanel {
                         CT_GioHang_DAO ctGioHangDao = new CT_GioHang_DAO();
                         SanPham sp; GioHang gh;
                         //System.out.println("KTGH: "+ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH()).size());
-                        if(sl > spDao.TimKiemTen(table.getValueAt(r,1).toString()).getSoLuong()){
-                            JOptionPane.showMessageDialog(null,"Không đủ số lượng Sản phẩm");
-                        }
-                        else {
+                        if (sl < 1) {
+                            JOptionPane.showMessageDialog(null, "Số lượng sản phẩm phải lớn hơn 0", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                        } else if (sl > spDao.TimKiemTen(table.getValueAt(r, 1).toString()).getSoLuong()) {
+                            JOptionPane.showMessageDialog(null, "Không đủ số lượng Sản phẩm", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                        } else {
                             if (ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH()).size() != 0) {
                             	System.out.println("xxx");
                                 for (CT_GioHang ct: ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH())) {
@@ -586,7 +662,7 @@ public class BanHang1_Form extends JPanel {
                                             	//lctgh = ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH());
                                                 table1.setModel(new CT_GioHang_TableModel(ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH())));
                                                 System.out.println("zzz");
-                                                System.out.println(lctgh);
+                                                //System.out.println(lctgh);
                                                 //table.setModel(new SP_TableModel(spDao.getLS()));
                                                 tongTien+= ctgh.getThanhTien();
                                                 txttienThuoc.setText(String.valueOf(df.format(tongTien)));
@@ -649,36 +725,82 @@ public class BanHang1_Form extends JPanel {
                 int r = table1.getSelectedRow();
                 btnCapNhatSL.setEnabled(false);
                 btnXoa.setEnabled(false);
-                if(r != -1) {
+
+                if (r != -1) {
                     int sl = Integer.parseInt(JOptionPane.showInputDialog(null, "Nhập số lượng cập nhật: ",
                             "Nhập số lượng", JOptionPane.INFORMATION_MESSAGE));
-                    CT_GioHang_DAO ctGioHangDao = new CT_GioHang_DAO();
-                    GioHang_DAO ghDao = new GioHang_DAO();
-                    SanPham sp = spDao.TimKiemTen(table1.getValueAt(r,1).toString());
-                    CT_GioHang ct = ctGioHangDao.TimTheoMaGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH());
-                    double thanhtientruoc = Double.parseDouble(table1.getValueAt(r, 7).toString());
-                    if (ctGioHangDao.updateCTGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH(),spDao.TimKiemTen(table1.getValueAt(r,1).toString()).getMaSP(),sl)){
-                        try {
-//                            System.out.println("ok");
-                        	
-                            int sl1 = sp.getSoLuong()+ct.getSoLuong() - sl;
-                            System.out.println(sl1);
-                            spDao.updateSoLuong(sp.getMaSP(),sl1);
-                            table1.setModel(new CT_GioHang_TableModel(ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH())));
-                            double thanhtiensau = Double.parseDouble(table1.getValueAt(r, 7).toString());
-                            tongTien = tongTien - thanhtientruoc + thanhtiensau;
-                            txttienThuoc.setText(String.valueOf(df.format(tongTien)));
-                            txtThue.setText("4%");
-                            txtTong.setText(String.valueOf(df.format(tongTien + tongTien*0.04)));
-                            //table.setModel(new SP_TableModel(spDao.getLS()));
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+
+                    if (sl > 0) {
+                        CT_GioHang_DAO ctGioHangDao = new CT_GioHang_DAO();
+                        GioHang_DAO ghDao = new GioHang_DAO();
+                        SanPham sp = spDao.TimKiemTen(table1.getValueAt(r, 1).toString());
+                        CT_GioHang ct = ctGioHangDao.TimTheoMaGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH());
+
+                        if (sl < sp.getSoLuong() + ct.getSoLuong()) {
+                            double thanhtientruoc = Double.parseDouble(table1.getValueAt(r, 7).toString());
+
+                            if (ctGioHangDao.updateCTGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH(), spDao.TimKiemTen(table1.getValueAt(r, 1).toString()).getMaSP(), sl)) {
+                                try {
+                                    int sl1 = sp.getSoLuong() + ct.getSoLuong() - sl;
+                                    spDao.updateSoLuong(sp.getMaSP(), sl1);
+
+                                    table1.setModel(new CT_GioHang_TableModel(ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH())));
+                                    double thanhtiensau = Double.parseDouble(table1.getValueAt(r, 7).toString());
+                                    tongTien = tongTien - thanhtientruoc + thanhtiensau;
+                                    txttienThuoc.setText(String.valueOf(df.format(tongTien)));
+                                    txtThue.setText("4%");
+                                    txtTong.setText(String.valueOf(df.format(tongTien + tongTien * 0.04)));
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Số lượng cập nhật phải nhỏ hơn hoặc bằng số lượng có sẵn", "Thông báo", JOptionPane.WARNING_MESSAGE);
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Số lượng cập nhật phải lớn hơn 0", "Thông báo", JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 table1.clearSelection();
             }
         });
+
+//        btnCapNhatSL.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int r = table1.getSelectedRow();
+//                btnCapNhatSL.setEnabled(false);
+//                btnXoa.setEnabled(false);
+//                if(r != -1) {
+//                    int sl = Integer.parseInt(JOptionPane.showInputDialog(null, "Nhập số lượng cập nhật: ",
+//                            "Nhập số lượng", JOptionPane.INFORMATION_MESSAGE));
+//                    CT_GioHang_DAO ctGioHangDao = new CT_GioHang_DAO();
+//                    GioHang_DAO ghDao = new GioHang_DAO();
+//                    SanPham sp = spDao.TimKiemTen(table1.getValueAt(r,1).toString());
+//                    CT_GioHang ct = ctGioHangDao.TimTheoMaGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH());
+//                    double thanhtientruoc = Double.parseDouble(table1.getValueAt(r, 7).toString());
+//                    if (ctGioHangDao.updateCTGH(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH(),spDao.TimKiemTen(table1.getValueAt(r,1).toString()).getMaSP(),sl)){
+//                        try {
+////                            System.out.println("ok");
+//                        	
+//                            int sl1 = sp.getSoLuong()+ct.getSoLuong() - sl;
+//                            System.out.println(sl1);
+//                            spDao.updateSoLuong(sp.getMaSP(),sl1);
+//                            table1.setModel(new CT_GioHang_TableModel(ctGioHangDao.getLS(ghDao.TimKiemMaKH(kh.getMaKH()).getMaGH())));
+//                            double thanhtiensau = Double.parseDouble(table1.getValueAt(r, 7).toString());
+//                            tongTien = tongTien - thanhtientruoc + thanhtiensau;
+//                            txttienThuoc.setText(String.valueOf(df.format(tongTien)));
+//                            txtThue.setText("4%");
+//                            txtTong.setText(String.valueOf(df.format(tongTien + tongTien*0.04)));
+//                            //table.setModel(new SP_TableModel(spDao.getLS()));
+//                        } catch (Exception ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                }
+//                table1.clearSelection();
+//            }
+//        });
         //Sự kiện xóa sản phẩm
         btnXoa.addActionListener(new ActionListener() {
             @Override

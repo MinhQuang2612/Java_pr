@@ -69,7 +69,7 @@ public class HoaDonBanHang_DAO {
             dhAdd.setDate(4,hdbh.getNgayLapHD());
 
             int n = dhAdd.executeUpdate();
-            if(n > 0)
+            if (n > 0)
                 return true;
         } catch (SQLException e) {
             e.printStackTrace();

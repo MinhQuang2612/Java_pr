@@ -62,11 +62,12 @@ public class NhapHang1_Form extends JPanel {
     JDateChooser ngaySanXuat;
     SP_TableModel tableModel;
     String maHDNH = "";        
-    JButton btnHoaDonMoi,btnIn,btnThoat,btnNhaCC,btnNhapthuoc;
+    JButton btnHoaDonMoi,btnIn,btnThoat,btnNhaCC,btnNhapthuoc, btnLapHD;
     JComboBox<String> cbcLoai,cbcDonVi;
     JDateChooser NgayLap,NgayHetHan;
     String mahd = "";
     NhanVien nv;
+    String maNCC = "";
     NhaCungCap ncc;
     NhaCungCap_DAO ncc_dao;
     NhapHang1_Form nh;
@@ -87,7 +88,7 @@ public class NhapHang1_Form extends JPanel {
 
         JPanel pnThongTin = new JPanel();
         pnThongTin.setBorder(new TitledBorder("Thông Tin Hóa Đơn"));
-        Box b,b1,b2,b3,b4;
+        Box b,b1,b2,b3,b4, b5;
         b = Box.createVerticalBox();
         b.setPreferredSize(new Dimension(500,210));
         b.add(Box.createVerticalStrut(30));
@@ -118,9 +119,9 @@ public class NhapHang1_Form extends JPanel {
         b11.add(lblNhanVien = new JLabel("Nhân Viên Lập HD: "));
         b11.add(txtNhanVien = new JTextField());
         b.add(Box.createVerticalStrut(10));
-        //b.add(b2 = Box.createHorizontalBox());
-        //b2.add(btnNhaCC = new JButton("Nhà Cung Cấp"));
-        //b.add(Box.createVerticalStrut(10));
+//        b.add(b2 = Box.createHorizontalBox());
+//        b2.add(btnNhaCC = new JButton("Nhà Cung Cấp"));
+//        b.add(Box.createVerticalStrut(10));
 
         b.add(b3 = Box.createHorizontalBox());
         b3.add(lblNhaCC = new JLabel("Nhà Cung Cấp: "));
@@ -140,6 +141,9 @@ public class NhapHang1_Form extends JPanel {
         b4.add(lblDiaChi = new JLabel("Địa Chỉ: "));
         b4.add(txtDiaChi = new JTextField());
         b.add(Box.createVerticalStrut(10));
+        
+        b.add(b5 = Box.createHorizontalBox());
+        b5.add(btnLapHD = new JButton("Chọn Nhà Cung Cấp"));
 
         lblMaHD.setPreferredSize(lblNhanVien.getPreferredSize());
         lblNgayLap.setPreferredSize(lblNhanVien.getPreferredSize());
@@ -266,7 +270,7 @@ public class NhapHang1_Form extends JPanel {
         s = Box.createVerticalBox();
         s.setPreferredSize(new Dimension(1000,100));
         s.add(s1 = Box.createHorizontalBox());
-        s1.add(lblTienThuoc = new JLabel("Tổng Tiền Thuốc: "));
+        s1.add(lblTienThuoc = new JLabel("Tổng Tiền Sản Phẩm: "));
         s1.add(txttienThuoc = new JTextField());
         txttienThuoc.setEditable(false);
         s1.add(Box.createHorizontalStrut(50));
@@ -313,7 +317,7 @@ public class NhapHang1_Form extends JPanel {
 
        
 
-        if(nv != null){
+        if (nv != null){
             txtNhanVien.setEditable(false);
             txtNhanVien.setText(nv.getTenNV());
         }
@@ -325,6 +329,29 @@ public class NhapHang1_Form extends JPanel {
 //                ds.nhapHang = nh;
 //            }
 //        });
+//       
+        btnLapHD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if (maNCC == "") {
+                	JOptionPane.showMessageDialog(null, "Bạn chưa chọn nhà cung cấp!");
+                	return;
+                }
+            	int result = JOptionPane.showConfirmDialog(null, "Bạn muốn nhập hàng từ NCC này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                    ncc = ncc_dao.TimKiemMa(maNCC);
+
+                    //System.out.println(ncc);
+                    //System.out.println(nv);
+                    
+                    HoaDonNhapHang hd = new HoaDonNhapHang("", Date.valueOf(LocalDate.now()));
+                    hd.setNhaCungCap(ncc);
+                    hd.setNhanVien(nv);
+                    HoaDonNhapHang_DAO hdDao = new HoaDonNhapHang_DAO();
+                    hdDao.addHoaDonNH(hd);
+                    
+                }
+            
+        });
         
         btnTim.addActionListener(new ActionListener() {
 			@Override
@@ -341,6 +368,7 @@ public class NhapHang1_Form extends JPanel {
 					txtNhaCC.setText(ncc.getTenNhaCC());
 					txtDiaChi.setText(ncc.getDiaChi());
 					txtMail.setText(ncc.geteMail());
+					maNCC = ncc.getMaNhaCC();
 				}
 			}
 			
@@ -435,7 +463,7 @@ public class NhapHang1_Form extends JPanel {
 				
 				try {					
 					Class.forName("net.sourceforge.jtds.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=MinhQuang@2612");
+					Connection con = DriverManager.getConnection("jdbc:jtds:sqlserver://localhost:1433/QuanLyBanHangQuanAo;instance=SQLEXPRESS;user=sa;password=12345678");
 //					Connection con = MyConnection.getInstance().getConnection();
 					String sql = "SELECT hd.MAHDNH,hd.NGAYLAPHD,nv.TENNV,ncc.TENNHACC,ncc.SODT,ncc.DIACHI ,sp.TenSP,lsp.TENLOAI,nsx.TENNHASX,\r\n" + 
 							"cthd.SOLUONG,sp.DonGia,sp.BAOHANH,cthd.SOLUONG * sp.DONGIA AS ThanhTien\r\n" + 
@@ -446,7 +474,7 @@ public class NhapHang1_Form extends JPanel {
 							"JOIN [dbo].[LoaiSanPham] lsp ON lsp.MALOAI = sp.MALOAI\r\n" + 
 							"JOIN [dbo].[NhaSanXuat] nsx ON nsx.MANHASX = sp.MANHASX\r\n" + 
 							"WHERE hd.MAHDNH = "+"'"+maHDNH+"'";
-					JasperDesign jdesign = JRXmlLoader.load("D:\\Nhom13_QuanLyMuaBanHangQuanAo\\src\\BaoCao_Jasper\\BaoCaoNhapHang.jrxml");
+					JasperDesign jdesign = JRXmlLoader.load("D:\\Nhom13_QuanLyBanHangQuanAo\\src\\BaoCao_Jasper\\BaoCaoNhapHang.jrxml");
 					JRDesignQuery updateQuery = new JRDesignQuery();
 					updateQuery.setText(sql);
 					jdesign.setQuery(updateQuery);

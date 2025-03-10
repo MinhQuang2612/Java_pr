@@ -273,7 +273,7 @@ public class TT_NhanVien_Form extends JPanel {
         pnSouth.setPreferredSize(new Dimension(1030,70));
         
         txtTim = new JTextField(10);
-        btnTim = new JButton("Tìm Nhân Viên");
+        btnTim = new JButton("Tìm Nhân Viên Theo Mã");
         //Su kien tim
         btnTim.addActionListener(new ActionListener() {
 			
@@ -310,7 +310,7 @@ public class TT_NhanVien_Form extends JPanel {
                 txtMa.setEditable(false);
                 txtTen.requestFocus();
                 btnSua.setEnabled(false);
-                btnXoa.setEnabled(false);
+                //btnXoa.setEnabled(false);
             }
         });
         //btnXoa = new JButton("Xóa Nhân Viên");
@@ -347,13 +347,14 @@ public class TT_NhanVien_Form extends JPanel {
         btnSua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	NhanVien_DAO nvDao = new NhanVien_DAO();
                 String dateTime = (String) formatter.format(namSinh.getDate());
                 String ngayVao1 = (String) formatter.format(NgayVao.getDate());
                 btnSuaAnh.setEnabled(true);
                 int r = table.getSelectedRow();
                 System.out.println(table.getRowCount());
                 txtMa.setEnabled(false);
-                if(r != -1){
+                if (r != -1){
                     btnSuaAnh.setText("Chỉnh sửa ảnh");
                     btnSuaAnh.setVisible(true);
                     String maS = txtMa.getText().trim();
@@ -365,13 +366,14 @@ public class TT_NhanVien_Form extends JPanel {
                     nvSua.setChucVu(cv);
                     System.out.println(nvSua);
                     int lc = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn sửa thông tin không ?","option",JOptionPane.YES_NO_OPTION);
-                    if(lc == JOptionPane.YES_OPTION) {
-                    	if(NvDao.updateNhanVien(maS,nvSua)) {
-                            try {
-                                table.setModel(new NV_TableModel(NvDao.getLS()));
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+                    if (lc == JOptionPane.YES_OPTION) {
+                    	if (nvDao.updateNhanVien(maS,nvSua)) {
+//                            try {
+//                                table.setModel(new NV_TableModel(nvDao.getLS()));
+//                            } catch (Exception ex) {
+//                                ex.printStackTrace();
+//                            }
+                    		JOptionPane.showMessageDialog(null, "Đã sửa thông tin nhân viên");
                         }
                     }
             
@@ -420,25 +422,26 @@ public class TT_NhanVien_Form extends JPanel {
                                 if (cvDao.TimKiemTen(cbcChucVu.getSelectedItem().toString()) != null) {
                                     cv = cvDao.TimKiemTen(cbcChucVu.getSelectedItem().toString());
                                     nv.setChucVu(cv);
-                                    if (NvDao.addNhanVien(nv)) {
-                                        try {
-                                            table.setModel(new NV_TableModel(NvDao.getLS()));
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-                                        }
+                                    if (nvDao.addNhanVien(nv)) {
+//                                        try {
+//                                            table.setModel(new NV_TableModel(nvDao.getLS()));
+//                                        } catch (Exception ex) {
+//                                            ex.printStackTrace();
+//                                        }
+                                    	JOptionPane.showMessageDialog(null, "Thêm nhân viên thành công!");
                                     } else
-                                        JOptionPane.showMessageDialog(null, "Bạn chưa nhập thông tin !");
+                                        JOptionPane.showMessageDialog(null, "Bạn chưa nhập thông tin!");
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Lỗi!");
                                 }
                                 clearTextField();
-                                table.setModel(new NV_TableModel(NvDao.getLS()));
-                                System.out.println(table.getRowCount());
+                                //table.setModel(new NV_TableModel(nvDao.getLS()));
+                                //System.out.println(table.getRowCount());
 
                                 // tableModel.fireTableDataChanged();
                             }
                         }
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Số điện thoại không được chứa chữ cái, số đt gồm 10 chữ số!");
                     }
                 }

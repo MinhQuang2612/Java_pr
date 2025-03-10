@@ -11,7 +11,7 @@ public class MyConnection {
     private MyConnection() {
         String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyBanHangQuanAo";
         try {
-            connection = DriverManager.getConnection(url , "sa", "MinhQuang@2612");
+            connection = DriverManager.getConnection(url , "sa", "12345678");
         } catch (SQLException e) {
             e.printStackTrace();
         }

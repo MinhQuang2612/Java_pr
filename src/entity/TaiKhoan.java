@@ -4,6 +4,7 @@ public class TaiKhoan {
     private String tenDN;
     private String matKhau;
     private String ma;
+   
     private String ten;
     private String quyen;
 
@@ -16,6 +17,7 @@ public class TaiKhoan {
         this.tenDN = tenDN;
         this.matKhau = matKhau;
         this.ma = ma;
+        
         this.ten = ten;
         this.quyen = quyen;
     }
@@ -43,6 +45,8 @@ public class TaiKhoan {
     public void setMa(String ma) {
         this.ma = ma;
     }
+    
+    
 
     public String getTen() {
         return ten;

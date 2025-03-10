@@ -231,7 +231,7 @@ public class TT_KhachHang_Form extends JPanel {
         pnSouth.setPreferredSize(new Dimension(1030, 70));
         
         txtTim = new JTextField(10);
-        btnTim = new JButton("Tìm Khách Hàng");
+        btnTim = new JButton("Tìm Khách Hàng Theo SĐT");
         //Su kien tim
         btnTim.addActionListener(new ActionListener() {
 			@Override
@@ -278,6 +278,7 @@ public class TT_KhachHang_Form extends JPanel {
         btnSua.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	KhachHang_DAO khDao = new KhachHang_DAO();
                 String dateTime = (String) formatter.format(namSinh.getDate());
                 btnSuaAnh.setEnabled(true);
                 int r = table.getSelectedRow();
@@ -291,20 +292,21 @@ public class TT_KhachHang_Form extends JPanel {
                             txtEmail.getText(), txtSDT.getText(), txtCM.getText(), txtdiaChi.getText(), lbImage.getIcon().toString());
                     System.out.println(khSua);
                     int lc = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn sửa thông tin không ?","option",JOptionPane.YES_NO_OPTION);
-                    if(lc == JOptionPane.YES_OPTION) {
-	                    if (KhDao.updateKhachHang(maS, khSua)) {
-	                        try {
-	                            table.setModel(new KH_TableModel(KhDao.getLS()));
-		                        } catch (Exception ex) {
-		                            ex.printStackTrace();
-		                        }
-		                    }
-		                } else {
-		                    JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng nào!");
+                    if (lc == JOptionPane.YES_OPTION) {
+	                    if (khDao.updateKhachHang(maS, khSua)) {
+//	                        try {
+//	                           table.setModel(new KH_TableModel(khDao.getLS()));
+//		                    } catch (Exception ex) {
+//		                        ex.printStackTrace();
+//		                    }
+	                    	JOptionPane.showMessageDialog(null, "Đã sửa thông tin thành công!");
 		                }
-                	}
-                	cleartext();           
+	                } else {
+		               JOptionPane.showMessageDialog(null, "Bạn chưa chọn dòng nào!");
+		            }
                 }
+                	cleartext();           
+              }
         });
 
         btnLuu = new JButton("Lưu Thông Tin");
@@ -315,13 +317,13 @@ public class TT_KhachHang_Form extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 KhachHang_DAO khDao = new KhachHang_DAO();
-                if(txtKhachHang.getText().trim().equalsIgnoreCase("")){
-                    JOptionPane.showMessageDialog(null,"Tên khách hàng không được rỗng");
-                }else {
+                if (txtKhachHang.getText().trim().equalsIgnoreCase("")){
+                    JOptionPane.showMessageDialog(null, "Tên khách hàng không được rỗng");
+                } else {
                     if (txtSDT.getText().trim().matches("\\d{10}")) {
                         if (txtCM.getText().trim().equalsIgnoreCase("")) {
                             JOptionPane.showMessageDialog(null, "Chưa nhập số CCCD");
-                        }else{
+                        } else{
                             if (khDao.TimKiemCM(txtCM.getText().trim()) != null) {
                                 JOptionPane.showMessageDialog(null, "Khách hàng đã tồn tại (Trùng số CCCD)");
                                 txtCM.requestFocus();
@@ -337,17 +339,19 @@ public class TT_KhachHang_Form extends JPanel {
                                         txtCM.getText().trim(),
                                         txtdiaChi.getText().trim(),
                                         lbImage.getIcon().toString());
-                                if (KhDao.addKhachHang(kh)) {
-                                    try {
-                                        table.setModel(new KH_TableModel(KhDao.getLS()));
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
+                                System.out.println(kh);
+                                if (khDao.addKhachHang(kh)) {
+//                                    try {
+//                                        table.setModel(new KH_TableModel(khDao.getLS()));
+//                                    } catch (Exception ex) {
+//                                        ex.printStackTrace();
+//                                    }
+                                    JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công!");
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập thông tin !");
+                                    JOptionPane.showMessageDialog(null, "Bạn chưa nhập thông tin!");
                                 }
                                 cleartext();
-                                table.setModel(new KH_TableModel(KhDao.getLS()));
+                                //table.setModel(new KH_TableModel(khDao.getLS()));
                             }
                         }
                     } else {

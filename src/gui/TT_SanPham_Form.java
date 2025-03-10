@@ -143,7 +143,7 @@ public class TT_SanPham_Form extends JPanel {
         lblTinhTrang.setPreferredSize(lblNgaySX.getPreferredSize());
 
         //Center
-        TitledBorder tileDanhSach = new TitledBorder("Danh sách linh kiện");
+        TitledBorder tileDanhSach = new TitledBorder("Danh sách sản phẩm");
         TitledBorder tileDanhSachSP = new TitledBorder("Danh sách sản phẩm");
 
         //pnSouth.setPreferredSize(new Dimension(1030,60));

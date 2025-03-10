@@ -324,7 +324,7 @@ public class SanPham_Form extends JPanel {
         pnSouth.setPreferredSize(new Dimension(1030,70));
         
         txtTim = new JTextField(10);
-        btnTim = new JButton("Tìm Sản Phẩm");
+        btnTim = new JButton("Tìm Sản Phẩm Theo Mã");
         
         btnTim.addActionListener(new ActionListener() {
 			@Override
@@ -433,6 +433,7 @@ public class SanPham_Form extends JPanel {
         btnLuu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	SanPham_DAO SpDao = new SanPham_DAO();
                 btnSuaAnh.setEnabled(false);
                 String dateTime = (String) formatter.format(ngaySanXuat.getDate());
                 SanPham sp = new SanPham(txtMa.getText().trim(), txtTen.getText().trim(),
@@ -452,22 +453,23 @@ public class SanPham_Form extends JPanel {
                     sp.setLoaiSanPham(lsp);
                     nsx = nsxDao.TimKiemTen(cbcNhaSX.getSelectedItem().toString());
                     sp.setNhaSanXuat(nsx);
-                    if(spDao.addSanPham(sp)) {
-                        try {
-                            table.setModel(new SP_TableModel(spDao.getLS()));
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+                    if (SpDao.addSanPham(sp)) {
+//                        try {
+//                            table.setModel(new SP_TableModel(SpDao.getLS()));
+//                        } catch (Exception ex) {
+//                            ex.printStackTrace();
+//                        }
+                    	JOptionPane.showMessageDialog(null, "Thêm mới sản phẩm thành công!");
                     }
 
                     else
                         JOptionPane.showMessageDialog(null,"Bạn chưa nhập thông tin !");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null,"Lỗi!");
                 }
 //                clearTextField();
                 clearText();
-                table.setModel(new SP_TableModel(spDao.getLS()));
+                table.setModel(new SP_TableModel(SpDao.getLS()));
                 System.out.println(table.getRowCount());
 
                 // tableModel.fireTableDataChanged();

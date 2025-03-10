@@ -249,20 +249,20 @@ public class NhaCungCap_Form extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean rs = true;
-                for (NhaCungCap ncc1: nccDao.getLS()) {
+                for (NhaCungCap ncc1: nccDao.getLS()) {	
                     if (ncc1.getTenNhaCC().equalsIgnoreCase(txtKhachHang.getText().trim())){
                         rs = false;
                     }
                 }
                 System.out.println(rs);
-                if(rs == true) {
+                if (rs == true) {
                     NhaCungCap ncc = new NhaCungCap(txtMa.getText(), txtKhachHang.getText(), txtSDT.getText(), txtEmail.getText(), txtdiaChi.getText(), icon.getDescription());
                     if (nccDao.addNhaCungCap(ncc)) {
                         table.setModel(new NCC_TableModel(nccDao.getLS()));
                     }
                 }else
                 {
-                    JOptionPane.showMessageDialog(null,"Tên nhà cung cấp đã tồn tại!");
+                    JOptionPane.showMessageDialog(null, "Tên nhà cung cấp đã tồn tại!");
                 }
             }
         });

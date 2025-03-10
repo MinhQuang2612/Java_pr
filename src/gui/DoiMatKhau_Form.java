@@ -2,8 +2,9 @@ package gui;
 
 import TableModel.NCC_TableModel;
 import dao.TaiKhoan_DAO;
-import entity.KhachHang;
-
+//import entity.KhachHang;
+//import entity.NhanVien;
+import entity.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,7 @@ public class DoiMatKhau_Form extends JPanel {
     JPasswordField txtMKmoi,txtNLMK;
     JButton btnThay,btnThoat,btnRep;
     KhachHang kh;
+    NhanVien nv;
     String ran = "";
 
     public DoiMatKhau_Form() {
@@ -146,9 +148,7 @@ public class DoiMatKhau_Form extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 TaiKhoan_DAO tkDao = new TaiKhoan_DAO();
-                System.out.println(tkDao.TimKiemMa(kh.getMaKH()).getMatKhau());
-
-                if(txtMKcu.getText().trim().equalsIgnoreCase(tkDao.TimKiemMa(kh.getMaKH()).getMatKhau().trim())){
+                if(txtMKcu.getText().trim().equalsIgnoreCase(tkDao.TimKiemMa(nv.getMaNV()).getMatKhau().trim())){
                     lblTB1.setText(" ");
                     lblTB1.setEnabled(false);
                     txtMKmoi.requestFocus();
@@ -184,7 +184,7 @@ public class DoiMatKhau_Form extends JPanel {
             public void mouseExited(MouseEvent e) {
                 String mk1 = String.valueOf(txtMKmoi.getPassword());
                 String mk2 = String.valueOf(txtNLMK.getPassword());
-                if(mk1.equalsIgnoreCase(mk2)){
+                if (mk1.equalsIgnoreCase(mk2)){
                     lblTB3.setText(" ");
                     lblTB3.setEnabled(false);
                     txtCap.requestFocus();
@@ -233,16 +233,17 @@ public class DoiMatKhau_Form extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 	            	TaiKhoan_DAO tkDao = new TaiKhoan_DAO();
-	            	if(txtMKcu.getText().trim().equalsIgnoreCase(tkDao.TimKiemMa(kh.getMaKH()).getMatKhau().trim())
+	            	//System.out.println(nv);
+	            	if(txtMKcu.getText().trim().equalsIgnoreCase(tkDao.TimKiemMa(nv.getMaNV()).getMatKhau().trim())
 	            			&& txtCap.getText().trim().equals(lblMa.getText().trim())) {
 		                String mkm = String.valueOf(txtMKmoi.getPassword());
-		                if(tkDao.updateMK(kh.getMaKH().trim(),mkm)){
+		                if(tkDao.updateMK(nv.getMaNV().trim(),mkm)){
 		                    JOptionPane.showMessageDialog(null,"Thay đổi mật khẩu thành công!");
 		                    txtMKcu.setText("");
 		                    txtMKmoi.setText("");
 		                    txtNLMK.setText("");
 		                    txtCap.setText("");
-		                }else{
+		                }else {
 		                    JOptionPane.showMessageDialog(null,"lỗi!");
 		                }
 	            }else {
@@ -255,7 +256,7 @@ public class DoiMatKhau_Form extends JPanel {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 6) { // length of the random string.
+        while (salt.length() < 4) { // length of the random string.
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
